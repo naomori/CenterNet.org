@@ -43,6 +43,8 @@ class Debugger(object):
         (255, 0, 0), (0, 0, 255)]
     elif num_classes == 80 or dataset == 'coco':
       self.names = coco_class_name
+    elif num_classes == 40 or dataset == 'arc':
+      self.names = arc_class_name
     elif num_classes == 20 or dataset == 'pascal':
       self.names = pascal_class_name
     elif dataset == 'gta':
@@ -215,7 +217,8 @@ class Debugger(object):
   def show_all_imgs(self, pause=False, time=0):
     if not self.ipynb:
       for i, v in self.imgs.items():
-        cv2.imshow('{}'.format(i), v)
+        #cv2.imshow('{}'.format(i), v)
+        cv2.imwrite(f'img_{format(i)}.png', v)
       if cv2.waitKey(0 if pause else 1) == 27:
         import sys
         sys.exit(0)
@@ -454,6 +457,18 @@ coco_class_name = [
      'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave',
      'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase',
      'scissors', 'teddy bear', 'hair drier', 'toothbrush'
+]
+
+arc_class_name = [
+    'Binder', 'Balloons', 'Baby_Wipes', 'Toilet_Brush', 'Toothbrushes',
+    'Crayons', 'Salts', 'DVD', 'Glue_Sticks', 'Eraser', 'Scissors',
+    'Green_Book', 'Socks', 'Irish_Spring', 'Paper_Tape', 'Touch_Tissues',
+    'Knit_Gloves', 'Laugh_Out_Loud_Jokes', 'Pencil_Cup', 'Mini_Marbles',
+    'Neoprene_Weight', 'Wine_Glasses', 'Water_Bottle', 'Reynolds_Pie',
+    'Reynolds_Wrap', 'Robots_Everywhere', 'Duct_Tape', 'Sponges',
+    'Speed_Stick', 'Index_Cards', 'Ice_Cube_Tray', 'Table_Cover',
+    'Measuring_Spoons', 'Bath_Sponge', 'Pencils', 'Mousetraps',
+    'Face_Cloth', 'Tennis_Balls', 'Spray_Bottle', 'Flashlights'
 ]
 
 color_list = np.array(

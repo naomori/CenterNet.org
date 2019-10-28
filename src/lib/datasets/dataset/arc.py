@@ -12,7 +12,7 @@ import torch.utils.data as data
 
 class ARC(data.Dataset):
     num_classes = 40
-    default_resolution = [1280, 960]
+    default_resolution = [512, 512]
     mean = np.array([0.36490161, 0.38790256, 0.42305998],
                     dtype=np.float32).reshape(1, 1, 3)
     std = np.array([0.20007855, 0.28563227, 0.31387719],

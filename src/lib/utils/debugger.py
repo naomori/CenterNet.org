@@ -84,7 +84,10 @@ class Debugger(object):
     cv2.imshow('{}'.format(imgId), self.imgs[imgId])
     if pause:
       cv2.waitKey()
-  
+
+  def store_img(self, imgId = 'arc', img_path = 'img_default.png'):
+    cv2.imwrite(img_path, self.imgs[imgId])
+
   def add_blend_img(self, back, fore, img_id='blend', trans=0.7):
     if self.theme == 'white':
       fore = 255 - fore
@@ -183,6 +186,7 @@ class Debugger(object):
     cat_size = cv2.getTextSize(txt, font, 0.5, 2)[0]
     cv2.rectangle(
       self.imgs[img_id], (bbox[0], bbox[1]), (bbox[2], bbox[3]), c, 2)
+
     if show_txt:
       cv2.rectangle(self.imgs[img_id],
                     (bbox[0], bbox[1] - cat_size[1] - 2),
@@ -218,7 +222,9 @@ class Debugger(object):
     if not self.ipynb:
       for i, v in self.imgs.items():
         #cv2.imshow('{}'.format(i), v)
-        cv2.imwrite(f'img_{format(i)}.png', v)
+        #cv2.imwrite(f'img_{format(i)}.png', v)
+        import sys
+        sys.exit(0)
       if cv2.waitKey(0 if pause else 1) == 27:
         import sys
         sys.exit(0)
@@ -461,14 +467,13 @@ coco_class_name = [
 
 arc_class_name = [
     'Binder', 'Balloons', 'Baby_Wipes', 'Toilet_Brush', 'Toothbrushes',
-    'Crayons', 'Salts', 'DVD', 'Glue_Sticks', 'Eraser', 'Scissors',
-    'Green_Book', 'Socks', 'Irish_Spring', 'Paper_Tape', 'Touch_Tissues',
-    'Knit_Gloves', 'Laugh_Out_Loud_Jokes', 'Pencil_Cup', 'Mini_Marbles',
-    'Neoprene_Weight', 'Wine_Glasses', 'Water_Bottle', 'Reynolds_Pie',
-    'Reynolds_Wrap', 'Robots_Everywhere', 'Duct_Tape', 'Sponges',
-    'Speed_Stick', 'Index_Cards', 'Ice_Cube_Tray', 'Table_Cover',
-    'Measuring_Spoons', 'Bath_Sponge', 'Pencils', 'Mousetraps',
-    'Face_Cloth', 'Tennis_Balls', 'Spray_Bottle', 'Flashlights'
+    'Crayons', 'Salts', 'DVD', 'Glue_Sticks', 'Eraser',
+    'Scissors', 'Green_Book', 'Socks', 'Irish_Spring', 'Paper_Tape',
+    'Touch_Tissues', 'Knit_Gloves', 'Laugh_Out_Loud_Jokes', 'Pencil_Cup', 'Mini_Marbles',
+    'Neoprene_Weight', 'Wine_Glasses', 'Water_Bottle', 'Reynolds_Pie', 'Reynolds_Wrap',
+    'Robots_Everywhere', 'Duct_Tape', 'Sponges', 'Speed_Stick', 'Index_Cards',
+    'Ice_Cube_Tray', 'Table_Cover', 'Measuring_Spoons', 'Bath_Sponge', 'Pencils',
+    'Mousetraps', 'Face_Cloth', 'Tennis_Balls', 'Spray_Bottle', 'Flashlights'
 ]
 
 color_list = np.array(

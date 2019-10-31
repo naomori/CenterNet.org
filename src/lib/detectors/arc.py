@@ -2,6 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
+
 import cv2
 import numpy as np
 from progress.bar import Bar
@@ -95,9 +97,23 @@ class ARCDetector(BaseDetector):
 
     def show_results(self, debugger, image, results):
         debugger.add_img(image, img_id='arc')
+        png_file = os.path.basename(self.image_path)
+        root, _ = os.path.splitext(png_file)
+        txt_file = root + '.txt'
         for j in range(1, self.num_classes + 1):
             for bbox in results[j]:
                 if bbox[4] > self.opt.vis_thresh:
                     debugger.add_coco_bbox(bbox[:4], j - 1, bbox[4],
                                            img_id='arc')
+                    # text out the bounding box
+                    with open(txt_file, 'a') as f:
+                        max_width = 1280
+                        max_height = 960
+                        x_min = np.clip(int(bbox[0]), 0, max_width)
+                        y_min = np.clip(int(bbox[1]), 0, max_height)
+                        x_max = np.clip(int(bbox[2]), 0, max_width)
+                        y_max = np.clip(int(bbox[3]), 0, max_height)
+                        print(f"{j} {bbox[4]} "
+                              f"{x_min} {y_min} {x_max} {y_max}", file=f)
+        debugger.store_img(imgId='arc', img_path=png_file)
         debugger.show_all_imgs(pause=self.pause)

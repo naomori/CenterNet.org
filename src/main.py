@@ -88,6 +88,12 @@ def main(opt):
       save_model(os.path.join(opt.save_dir, 'model_last.pth'), 
                  epoch, model, optimizer)
     logger.write('\n')
+
+    # save the model every 100 epochs
+    if epoch % 100 == 0:
+      save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)),
+                 epoch, model, optimizer)
+
     if epoch in opt.lr_step:
       save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)), 
                  epoch, model, optimizer)

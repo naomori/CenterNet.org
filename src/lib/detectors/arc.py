@@ -100,6 +100,7 @@ class ARCDetector(BaseDetector):
         png_file = os.path.basename(self.image_path)
         root, _ = os.path.splitext(png_file)
         txt_file = root + '.txt'
+        # print(f'output_file: {txt_file}')
         for j in range(1, self.num_classes + 1):
             for bbox in results[j]:
                 if bbox[4] > self.opt.vis_thresh:

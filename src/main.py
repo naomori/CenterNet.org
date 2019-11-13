@@ -13,7 +13,7 @@ from models.model import create_model, load_model, save_model
 from models.data_parallel import DataParallel
 from logger import Logger
 from datasets.dataset_factory import get_dataset
-from trains.train_factory import train_factory
+from trains.train_factory import get_trainer
 
 
 def main(opt):
@@ -36,8 +36,7 @@ def main(opt):
     model, optimizer, start_epoch = load_model(
       model, opt.load_model, optimizer, opt.resume, opt.lr, opt.lr_step)
 
-  Trainer = train_factory[opt.task]
-  trainer = Trainer(opt, model, optimizer)
+  trainer = get_trainer(opt, model, optimizer, opt.task)
   trainer.set_device(opt.gpus, opt.chunk_sizes, opt.device)
 
   print('Setting up data...')
@@ -89,11 +88,6 @@ def main(opt):
                  epoch, model, optimizer)
     logger.write('\n')
 
-    # save the model every 100 epochs
-    if epoch % 100 == 0:
-      save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)),
-                 epoch, model, optimizer)
-
     if epoch in opt.lr_step:
       save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)), 
                  epoch, model, optimizer)
@@ -101,8 +95,13 @@ def main(opt):
       print('Drop LR to', lr)
       for param_group in optimizer.param_groups:
           param_group['lr'] = lr
+    elif epoch % 100 == 0: # save the model every 100 epochs
+      save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)),
+                 epoch, model, optimizer)
+
   logger.close()
 
 if __name__ == '__main__':
   opt = opts().parse()
+  print(opt)
   main(opt)

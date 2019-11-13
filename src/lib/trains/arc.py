@@ -52,12 +52,10 @@ class ARCLoss(torch.nn.Module):
             if opt.wh_weight > 0:
                 if opt.dense_wh:
                     mask_weight = batch['dense_wh_mask'].sum() + 1e-4
-                    wh_loss += (
-                                       self.crit_wh(output['wh'] * batch[
-                                           'dense_wh_mask'],
-                                                    batch['dense_wh'] * batch[
-                                                        'dense_wh_mask']) /
-                                       mask_weight) / opt.num_stacks
+                    wh_loss += (self.crit_wh(
+                        output['wh'] * batch['dense_wh_mask'],
+                        batch['dense_wh'] * batch['dense_wh_mask'])
+                                / mask_weight) / opt.num_stacks
                 elif opt.cat_spec_wh:
                     wh_loss += self.crit_wh(
                         output['wh'], batch['cat_spec_mask'],
@@ -103,9 +101,7 @@ class ARCTrainer(BaseTrainer):
                 dataset=opt.dataset, ipynb=(opt.debug == 3),
                 theme=opt.debugger_theme)
             img = batch['input'][i].detach().cpu().numpy().transpose(1, 2, 0)
-            img = np.clip(((
-                                   img * opt.std + opt.mean) * 255.), 0,
-                          255).astype(np.uint8)
+            img = np.clip(((img * opt.std + opt.mean) * 255.), 0, 255).astype(np.uint8)
             pred = debugger.gen_colormap(output['hm'][i].detach().cpu().numpy())
             gt = debugger.gen_colormap(batch['hm'][i].detach().cpu().numpy())
             debugger.add_blend_img(img, pred, 'pred_hm')

@@ -95,7 +95,8 @@ def main(opt):
       print('Drop LR to', lr)
       for param_group in optimizer.param_groups:
           param_group['lr'] = lr
-    elif epoch % 100 == 0: # save the model every 100 epochs
+    elif epoch % 100 == 0 or (epoch + 10) in opt.lr_step:
+      # save the model every 100 epochs
       save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)),
                  epoch, model, optimizer)
 

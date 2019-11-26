@@ -8,6 +8,8 @@ from progress.bar import Bar
 from models.data_parallel import DataParallel
 from utils.utils import AverageMeter
 
+from tensorboardX import SummaryWriter
+
 
 class ModleWithLoss(torch.nn.Module):
   def __init__(self, model, loss):
@@ -27,6 +29,10 @@ class BaseTrainer(object):
     self.optimizer = optimizer
     self.loss_stats, self.loss = self._get_losses(opt)
     self.model_with_loss = ModleWithLoss(model, self.loss)
+    self.writer = SummaryWriter("./tbX")
+
+  def __del__(self):
+    self.writer.close()
 
   def set_device(self, gpus, chunk_sizes, device):
     if len(gpus) > 1:
@@ -97,7 +103,8 @@ class BaseTrainer(object):
       if opt.test:
         self.save_result(output, batch, results)
       del output, loss, loss_stats
-    
+
+    self.writer.add_scalar(f'{phase}/loss', avg_loss_stats['loss'].avg, epoch)
     bar.finish()
     ret = {k: v.avg for k, v in avg_loss_stats.items()}
     ret['time'] = bar.elapsed_td.total_seconds() / 60.

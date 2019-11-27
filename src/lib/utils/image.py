@@ -226,5 +226,5 @@ def color_aug(data_rng, image, eig_val, eig_vec):
     gs = grayscale(image)
     gs_mean = gs.mean()
     for f in functions:
-        f(data_rng, image, gs, gs_mean, 0.4)
+        f(data_rng, image, gs, gs_mean, 0.2)
     lighting_(data_rng, image, 0.1, eig_val, eig_vec)

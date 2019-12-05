@@ -29,15 +29,9 @@ py_exe = 'python ./demo.py'
 
 def demo(png_path):
     python_script = f"{py_exe} arc --arch {arch} " \
-                    f"--demo {png_path} --load_model {model}"
+                    f"--demo {png_path} --load_model {model} " \
+                    f"--result_dir {result_dir}"
     subprocess.run(shlex.split(python_script))
-    png_file = os.path.basename(png_path)
-    root, _ = os.path.splitext(png_file)
-    txt_file = root + '.txt'
-    if os.path.exists(png_file):
-        shutil.move(png_file, f'{result_dir}/')
-    if os.path.exists(txt_file):
-        shutil.move(txt_file, f'{result_dir}/')
 
 #p = Pool(multi.cpu_count()//2)
 p = Pool(4)

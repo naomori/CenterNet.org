@@ -50,8 +50,10 @@ class ARCDataset(data.Dataset):
       if self.split == 'train':
           if not self.opt.not_rand_crop:
               # no need to scale images for arc2017 dataset? -> Yes, it does.
-              # s = s * np.random.choice(np.arange(0.6, 1.4, 0.1)) if True else 1
-              s = s * np.random.choice(np.arange(0.9, 1.1, 0.02)) if True else 1
+              s = s * np.random.choice(np.arange(0.6, 1.4, 0.1)) if True else 1
+              # s = s * np.random.choice(np.arange(0.7, 1.3, 0.075)) if True else 1
+              # s = s * np.random.choice(np.arange(0.8, 1.2, 0.050)) if True else 1
+              # s = s * np.random.choice(np.arange(0.9, 1.1, 0.025)) if True else 1
               w_border = self._get_border(128, img.shape[1])
               h_border = self._get_border(128, img.shape[0])
               c[0] = np.random.randint(low=w_border,

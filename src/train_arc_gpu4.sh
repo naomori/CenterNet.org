@@ -32,12 +32,12 @@ case $arch in
     num_epochs="${4:-140}"
     python main.py arc --dataset arc --arch ${arch} \
       --exp_id ${exp_id} --batch_size ${batch_size} --master_batch 5 \
-      --num_epochs ${num_epochs} --lr 3.75e-4 --gpus 0,1,2,3 --num_workers 4 ;;
+      --num_epochs ${num_epochs} --lr 3.75e-4 --gpus 0,1,2,3 --num_workers 8 ;;
   "resdcn_18")
     batch_size="${3:-114}"
     num_epochs="${4:-140}"
     python main.py ctdet --dataset arc --arch ${arch} \
       --exp_id ${exp_id} --batch_size ${batch_size} --master_batch 18 \
-      --num_epochs ${num_epochs} --lr 5e-4 --gpus 0,1,2,3 --num_workers 4 ;;
+      --num_epochs ${num_epochs} --lr 5e-4 --gpus 0,1,2,3 --num_workers 8 ;;
   *) echo "unknown arch: ${arch}" ;;
 esac

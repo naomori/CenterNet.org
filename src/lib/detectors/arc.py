@@ -96,8 +96,13 @@ class ARCDetector(BaseDetector):
                                                scale))
 
     def show_results(self, debugger, image, results):
+        result_dir = self.opt.result_dir
+        if not os.path.exists(result_dir):
+            os.makedirs(result_dir, exist_ok=True)
+
         debugger.add_img(image, img_id='arc')
         png_file = os.path.basename(self.image_path)
+        png_file = result_dir + "/" + png_file
         root, _ = os.path.splitext(png_file)
         txt_file = root + '.txt'
         # print(f'output_file: {txt_file}')

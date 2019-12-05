@@ -32,6 +32,8 @@ class opts(object):
                                   'Reloaded the optimizer parameter and '
                                   'set load_model to model_last.pth '
                                   'in the exp dir if load_model is empty.') 
+    self.parser.add_argument('--result_dir', default='',
+                             help='path to the directory of demo result')
 
     # system
     self.parser.add_argument('--gpus', default='0', 
@@ -56,7 +58,7 @@ class opts(object):
                              help='visualization threshold.')
     self.parser.add_argument('--debugger_theme', default='white', 
                              choices=['white', 'black'])
-    
+
     # model
     self.parser.add_argument('--arch', default='dla_34', 
                              help='model architecture. Currently tested'
